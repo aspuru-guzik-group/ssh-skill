@@ -76,6 +76,34 @@ ssh killarney
 
 After a successful Duo login, repeated agent commands usually reuse the SSH control socket for several hours.
 
+## MFA Warmup Schedule
+
+On macOS agent machines, install the scheduled warmup:
+
+```bash
+bash scripts/install_mfa_warmup_launchd.sh
+```
+
+This runs at 09:00 and 19:00 local time and starts normal SSH authentication for MFA-backed Alliance clusters so the user can approve Duo. It does not bypass MFA or approve anything automatically.
+
+Default warmup targets:
+
+```text
+beluga narval cedar killarney
+```
+
+Niagara is not included by default because it is legacy/decommissioned in the cluster references. To override the list:
+
+```bash
+SSH_SKILL_MFA_CLUSTERS="beluga narval cedar killarney niagara" bash scripts/install_mfa_warmup_launchd.sh
+```
+
+Logs are written to:
+
+```text
+~/.local/state/ssh-skill/mfa-warmup.log
+```
+
 ## Usage
 
 From an agent:

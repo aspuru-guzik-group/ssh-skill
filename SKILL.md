@@ -123,6 +123,32 @@ Use careful quoting. When commands are complex, create a short remote script wit
 - The generated SSH config uses ControlMaster/ControlPersist, so repeated commands can reuse a previously authenticated connection for several hours.
 - If a cluster says the public key is not accepted, ask the user to add their public key from `scripts/install_ssh_config.sh` to CCDB or the cluster's supported authorized-keys page, then retry.
 
+## MFA Warmup
+
+For machines that should keep Alliance SSH sessions ready for agents, install the macOS scheduled warmup:
+
+```bash
+bash scripts/install_mfa_warmup_launchd.sh
+```
+
+This runs `scripts/mfa_warmup.sh` every day at 09:00 and 19:00 local time. It starts normal SSH authentication to MFA-backed Alliance clusters so the user can approve Duo on their phone; it does not approve, bypass, store, or simulate MFA. Default warmup clusters are:
+
+```text
+beluga narval cedar killarney
+```
+
+Niagara is not warmed by default because it is legacy/decommissioned in the cluster references. Override the list per machine with `SSH_SKILL_MFA_CLUSTERS`, for example:
+
+```bash
+SSH_SKILL_MFA_CLUSTERS="beluga narval cedar killarney niagara" bash scripts/install_mfa_warmup_launchd.sh
+```
+
+Warmup logs are written to:
+
+```text
+~/.local/state/ssh-skill/mfa-warmup.log
+```
+
 ## Alliance Accounts
 
 Known Aspuru-Guzik group account names:
