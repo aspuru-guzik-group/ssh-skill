@@ -1,0 +1,39 @@
+# Comte Cluster Reference
+
+Use this for `/ssh comte ...`.
+
+## Access
+
+Login alias:
+
+```bash
+ssh comte
+```
+
+The generated local alias maps to `comte.matter.sandbox` using `SSH_SKILL_MATTER_USER` and the configured `SSH_SKILL_KEY`.
+
+## Monitoring Requirement
+
+After every `sbatch` submission, follow `references/monitoring.md`: monitor until the job is pending with a clear reason or running, then check CPU/GPU/memory utilization. Flag jobs that reserve GPUs, CPU cores, or memory without using them.
+
+## Discovery First
+
+Comte does not yet have detailed local cluster notes in this skill. Before submitting or changing jobs, inspect the live system:
+
+```bash
+ssh comte 'bash -lc "hostname; whoami; pwd; date"'
+ssh comte 'bash -lc "command -v sbatch squeue sinfo sacct 2>/dev/null || true"'
+ssh comte 'bash -lc "printf \"HOME=%s\nSCRATCH=%s\nPROJECT=%s\nTMPDIR=%s\n\" \"$HOME\" \"${SCRATCH:-}\" \"${PROJECT:-}\" \"${TMPDIR:-}\""'
+ssh comte 'bash -lc "sinfo -o \"%P %a %l %D %G\" 2>/dev/null | head -80 || true"'
+ssh comte 'bash -lc "squeue -u $USER 2>/dev/null || true"'
+ssh comte 'bash -lc "module avail 2>&1 | head -200 || true"'
+```
+
+If Slurm is present, follow the generic Slurm rules:
+
+- Do not run long calculations on the login node.
+- Use `sbatch` for batch jobs and `srun`/`salloc` for interactive allocations.
+- Discover any required partition, account, GPU resource, memory limits, and filesystem policy before submission.
+- Report job id, working directory, script path, output/log path, and monitor command.
+
+If Comte is not a Slurm cluster, adapt to the live scheduler or ask the user before running long-lived work.
