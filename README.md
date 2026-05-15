@@ -15,28 +15,28 @@ trillium
 
 ## Install With npx
 
-Install the `/ssh` skill into Codex:
+Install the `/ssh` skill:
 
 ```bash
-npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add codex
-```
-
-Install into Claude Code:
-
-```bash
-npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add claudecode
-```
-
-Install into another agent by passing the skill directory explicitly:
-
-```bash
-npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add --target ~/.agent/skills/ssh
+npx skills add aspuru-guzik-group/ssh-skill
 ```
 
 Then run the one-time SSH setup from the installed skill directory:
 
 ```bash
 bash ~/.codex/skills/ssh/scripts/install_ssh_config.sh
+```
+
+If your agent uses a custom skill directory, install to that directory explicitly:
+
+```bash
+npx skills add aspuru-guzik-group/ssh-skill --target ~/.agent/skills/ssh
+```
+
+The package also supports direct invocation from this repository package:
+
+```bash
+npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skills add aspuru-guzik-group/ssh-skill
 ```
 
 ## Manual Install

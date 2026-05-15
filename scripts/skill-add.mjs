@@ -8,6 +8,9 @@ const repoRoot = resolve(dirname(fileURLToPath(import.meta.url)), "..");
 const skillName = "ssh";
 
 const usage = `Usage:
+  npx skills add aspuru-guzik-group/ssh-skill
+  skills add aspuru-guzik-group/ssh-skill
+  skills add aspuru-guzik-group/ssh-skill --target ~/.agent/skills/ssh
   skill add codex
   skill add claudecode
   skill add openclaw
@@ -33,6 +36,7 @@ if (args[0] !== "add") {
 }
 
 let agent = null;
+let repo = null;
 let target = null;
 let setupSsh = false;
 
@@ -43,6 +47,8 @@ for (let i = 1; i < args.length; i += 1) {
     i += 1;
   } else if (arg === "--setup-ssh") {
     setupSsh = true;
+  } else if (!repo && (arg.includes("/") || arg.startsWith("git+") || arg.startsWith("github:"))) {
+    repo = arg;
   } else if (!agent) {
     agent = arg;
   } else {

@@ -9,6 +9,7 @@
     "url": "git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git"
   },
   "bin": {
+    "skills": "./scripts/skill-add.mjs",
     "skill": "./scripts/skill-add.mjs",
     "ssh-skill": "./scripts/skill-add.mjs"
   },
