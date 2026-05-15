@@ -28,4 +28,4 @@ for cluster in $clusters; do
 done
 
 printf '\nFor a non-interactive auth check after first Duo login:\n'
-printf '  ssh -o BatchMode=yes narval '\\''hostname; whoami'\\''\n'
+printf "%s\n" "  ssh -o BatchMode=yes narval 'hostname; whoami'"
