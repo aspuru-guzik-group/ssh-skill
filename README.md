@@ -76,6 +76,29 @@ ssh killarney
 
 After a successful Duo login, repeated agent commands usually reuse the SSH control socket for several hours.
 
+## GitHub Clones From Clusters
+
+The generated SSH config enables SSH agent forwarding for all cluster aliases. This lets clusters clone private GitHub repositories through your local SSH agent without copying private GitHub keys onto shared cluster storage.
+
+Test from a cluster:
+
+```bash
+ssh narval 'ssh -o StrictHostKeyChecking=accept-new -T git@github.com'
+```
+
+If this succeeds, private SSH clones work:
+
+```bash
+git clone git@github.com:OWNER/REPO.git
+```
+
+If GitHub auth still fails after installing this config, close old SSH control sockets and reconnect:
+
+```bash
+ssh -O exit narval || true
+ssh narval
+```
+
 ## MFA Warmup Schedule
 
 On macOS agent machines, install the scheduled warmup:

@@ -122,6 +122,24 @@ Use careful quoting. When commands are complex, create a short remote script wit
 - SSH keys may remove password prompts, but Alliance systems can still require MFA. If authentication blocks automation, tell the user they need to approve the first login or install the public key through CCDB.
 - The generated SSH config uses ControlMaster/ControlPersist, so repeated commands can reuse a previously authenticated connection for several hours.
 - If a cluster says the public key is not accepted, ask the user to add their public key from `scripts/install_ssh_config.sh` to CCDB or the cluster's supported authorized-keys page, then retry.
+- Do not copy private GitHub keys onto shared clusters. The generated SSH config uses `ForwardAgent yes` so private GitHub repositories can be cloned through the user's local SSH agent while the cluster session is active.
+- If GitHub access fails after enabling agent forwarding, close any old SSH control connection and reconnect: `ssh -O exit <cluster> || true`, then test with `ssh <cluster> 'ssh -T git@github.com'`.
+
+## GitHub Access From Clusters
+
+Private GitHub clones should use SSH URLs:
+
+```bash
+git clone git@github.com:OWNER/REPO.git
+```
+
+Before cloning on a cluster, verify the forwarded GitHub identity:
+
+```bash
+ssh <cluster> 'ssh -o StrictHostKeyChecking=accept-new -T git@github.com'
+```
+
+Expected success looks like `Hi <github-user>! You've successfully authenticated...`. If the cluster says `Permission denied (publickey)`, check that the local machine has the GitHub key loaded in `ssh-agent` and that the cluster SSH connection was opened after `ForwardAgent yes` was installed.
 
 ## MFA Warmup
 

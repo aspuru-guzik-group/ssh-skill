@@ -126,6 +126,7 @@ Host comte
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
@@ -140,6 +141,7 @@ Host niagara
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
@@ -154,6 +156,7 @@ Host beluga
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
@@ -168,6 +171,7 @@ Host narval
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
@@ -182,6 +186,7 @@ Host cedar
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
@@ -196,6 +201,7 @@ Host killarney
     IdentitiesOnly yes
     AddKeysToAgent yes
 ${use_keychain_line}
+    ForwardAgent yes
     ControlMaster auto
     ControlPath ~/.ssh/controlmasters/%C
     ControlPersist 10h
