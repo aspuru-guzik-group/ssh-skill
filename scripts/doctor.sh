@@ -7,7 +7,7 @@ if [ -f "$env_file" ]; then
   . "$env_file"
 fi
 
-clusters="mariana comte narval cedar killarney"
+clusters="mariana comte narval cedar killarney trillium"
 
 printf 'SSH skill environment:\n'
 printf '  SSH_SKILL_ALLIANCE_USER=%s\n' "${SSH_SKILL_ALLIANCE_USER:-<unset>}"

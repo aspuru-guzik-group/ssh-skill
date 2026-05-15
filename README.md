@@ -10,6 +10,7 @@ comte
 narval
 cedar
 killarney
+trillium
 ```
 
 ## Install
@@ -22,7 +23,7 @@ bash scripts/install_ssh_config.sh
 
 The setup asks for:
 
-- Alliance/CCDB username for Narval, Cedar, and Killarney.
+- Alliance/CCDB username for Narval, Cedar, Killarney, and Trillium.
 - Matter/CSLab username for Mariana and Comte.
 - SSH key path, or it creates `~/.ssh/id_ed25519` if no key exists.
 
@@ -70,6 +71,7 @@ Run an interactive login once per cluster so Duo can be approved and SSH connect
 ```bash
 ssh narval
 ssh killarney
+ssh trillium
 ```
 
 After a successful Duo login, repeated agent commands usually reuse the SSH control socket for several hours.
@@ -110,13 +112,13 @@ This runs at 09:00 and 19:00 local time and starts normal SSH authentication for
 Default warmup targets:
 
 ```text
-narval cedar killarney
+narval cedar killarney trillium
 ```
 
 To override the list:
 
 ```bash
-SSH_SKILL_MFA_CLUSTERS="narval cedar killarney" bash scripts/install_mfa_warmup_launchd.sh
+SSH_SKILL_MFA_CLUSTERS="narval cedar killarney trillium" bash scripts/install_mfa_warmup_launchd.sh
 ```
 
 Logs are written to:
@@ -132,6 +134,7 @@ From an agent:
 ```text
 /ssh narval show my jobs
 /ssh killarney submit this GPU job
+/ssh trillium submit this GPU job
 /ssh mariana check ORCA output
 ```
 
@@ -164,4 +167,5 @@ references/comte.md
 references/narval.md
 references/cedar.md
 references/killarney.md
+references/trillium.md
 ```

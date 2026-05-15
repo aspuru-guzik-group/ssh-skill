@@ -6,7 +6,7 @@ Use this when installing the SSH skill on a new group member's machine or when `
 
 Each user needs:
 
-- An Alliance/CCDB username for Narval, Cedar, and Killarney.
+- An Alliance/CCDB username for Narval, Cedar, Killarney, and Trillium.
 - A Matter/CSLab username for Mariana and Comte, if they use those local clusters.
 - A local SSH keypair.
 - The public SSH key registered in CCDB.
@@ -35,6 +35,7 @@ Agents should read `~/.config/ssh-skill/env` when they need the configured usern
 ```bash
 ssh narval
 ssh killarney
+ssh trillium
 ssh mariana
 ```
 
@@ -56,6 +57,7 @@ Run an interactive first login so Duo can be approved and SSH ControlMaster can 
 ```bash
 ssh narval
 ssh killarney
+ssh trillium
 ```
 
 If Duo offers push options, select the user's device and wait for approval. Do not automate around MFA.

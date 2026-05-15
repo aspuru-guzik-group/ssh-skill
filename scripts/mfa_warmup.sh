@@ -7,7 +7,7 @@ if [ -f "$env_file" ]; then
   . "$env_file"
 fi
 
-clusters="${SSH_SKILL_MFA_CLUSTERS:-narval cedar killarney}"
+clusters="${SSH_SKILL_MFA_CLUSTERS:-narval cedar killarney trillium}"
 attempt_seconds="${SSH_SKILL_MFA_ATTEMPT_SECONDS:-90}"
 push_response="${SSH_SKILL_MFA_RESPONSE:-1}"
 stagger_seconds="${SSH_SKILL_MFA_STAGGER_SECONDS:-8}"

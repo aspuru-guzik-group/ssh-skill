@@ -1,6 +1,6 @@
 ---
 name: ssh
-description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, or killarney.
+description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, killarney, or trillium.
 version: 1.0.0
 user-invocable: true
 metadata:
@@ -23,11 +23,13 @@ trigger_phrases:
   - ssh narval
   - ssh cedar
   - ssh killarney
+  - ssh trillium
   - submit to mariana
   - submit to comte
   - submit to narval
   - submit to cedar
   - submit to killarney
+  - submit to trillium
 ---
 
 # SSH Clusters
@@ -48,6 +50,7 @@ comte     -> comte.matter.sandbox         user from SSH_SKILL_MATTER_USER
 narval    -> narval.computecanada.ca      user from SSH_SKILL_ALLIANCE_USER
 cedar     -> cedar.computecanada.ca       user from SSH_SKILL_ALLIANCE_USER
 killarney -> killarney.alliancecan.ca     user from SSH_SKILL_ALLIANCE_USER
+trillium  -> trillium-gpu.scinet.utoronto.ca user from SSH_SKILL_ALLIANCE_USER
 ```
 
 If the first word after `/ssh` is not one of these cluster names, default to `mariana` for backward compatibility and treat the whole text as the instruction.
@@ -88,6 +91,7 @@ references/comte.md      # Comte discovery-first notes
 references/narval.md     # Narval storage/job/network notes
 references/cedar.md      # Cedar storage/job/network notes
 references/killarney.md  # Killarney H100/L40S GPU notes
+references/trillium.md   # Trillium GPU login/storage/job discovery notes
 ```
 
 For simple status checks (`hostname`, `whoami`, `pwd`, `squeue`, `sinfo`, `module avail`, checking a log), you can proceed directly and consult the reference only if needed.
@@ -144,13 +148,13 @@ bash scripts/install_mfa_warmup_launchd.sh
 This runs `scripts/mfa_warmup.sh` every day at 09:00 and 19:00 local time. It starts normal SSH authentication to MFA-backed Alliance clusters so the user can approve Duo on their phone; it does not approve, bypass, store, or simulate MFA. Default warmup clusters are:
 
 ```text
-narval cedar killarney
+narval cedar killarney trillium
 ```
 
 Override the list per machine with `SSH_SKILL_MFA_CLUSTERS`, for example:
 
 ```bash
-SSH_SKILL_MFA_CLUSTERS="narval cedar killarney" bash scripts/install_mfa_warmup_launchd.sh
+SSH_SKILL_MFA_CLUSTERS="narval cedar killarney trillium" bash scripts/install_mfa_warmup_launchd.sh
 ```
 
 Warmup logs are written to:

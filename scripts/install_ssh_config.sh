@@ -178,6 +178,21 @@ ${use_keychain_line}
     ServerAliveInterval 60
     ServerAliveCountMax 3
     StrictHostKeyChecking accept-new
+
+Host trillium
+    HostName trillium-gpu.scinet.utoronto.ca
+    User ${alliance_user}
+    IdentityFile ${key_path}
+    IdentitiesOnly yes
+    AddKeysToAgent yes
+${use_keychain_line}
+    ForwardAgent yes
+    ControlMaster auto
+    ControlPath ~/.ssh/controlmasters/%C
+    ControlPersist 10h
+    ServerAliveInterval 60
+    ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 EOF
 chmod 600 "$cluster_config"
 
@@ -201,3 +216,4 @@ cat "$key_path.pub"
 printf '\n\nAfter CCDB propagation, test with:\n'
 printf '  ssh narval\n'
 printf '  ssh killarney\n'
+printf '  ssh trillium\n'
