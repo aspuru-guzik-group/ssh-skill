@@ -23,7 +23,7 @@ for cluster in $clusters; do
     rm -f "$out_file" "$err_file"
     continue
   fi
-  awk '/^(hostname|user|identityfile|controlmaster|controlpersist) /{print "  " $0}' "$out_file"
+  awk '/^(hostname|user|identityfile|controlmaster|controlpersist|stricthostkeychecking) /{print "  " $0}' "$out_file"
   rm -f "$out_file" "$err_file"
 done
 

@@ -117,6 +117,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host comte
     HostName comte.matter.sandbox
@@ -130,6 +131,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host niagara
     HostName niagara.computecanada.ca
@@ -143,6 +145,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host beluga
     HostName beluga.computecanada.ca
@@ -156,6 +159,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host narval
     HostName narval.computecanada.ca
@@ -169,6 +173,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host cedar
     HostName cedar.computecanada.ca
@@ -182,6 +187,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 
 Host killarney
     HostName killarney.alliancecan.ca
@@ -195,6 +201,7 @@ ${use_keychain_line}
     ControlPersist 10h
     ServerAliveInterval 60
     ServerAliveCountMax 3
+    StrictHostKeyChecking accept-new
 EOF
 chmod 600 "$cluster_config"
 
