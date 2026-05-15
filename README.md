@@ -39,6 +39,45 @@ The package also supports direct invocation from this repository package:
 npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skills add aspuru-guzik-group/ssh-skill
 ```
 
+## One-Time Agent Onboarding
+
+Agents installing this skill for a new user should walk through this once per user and machine:
+
+1. Ask for the user's Alliance/CCDB username for Narval, Cedar, Killarney, and Trillium.
+2. Ask for the user's Matter/CSLab username for Mariana and Comte, if they use those clusters.
+3. Confirm whether the default Mariana/Comte hostnames and Aspuru-Guzik Slurm accounts should be used.
+4. Ask whether to use an existing SSH key or create one. Never ask for or copy a private key.
+5. Run the setup script from the installed skill directory:
+
+```bash
+bash scripts/install_ssh_config.sh
+```
+
+6. Give the user the printed public key and ask them to add it to their CCDB SSH keys / authorized keys page.
+7. Ask the user to confirm in CCDB that MFA/Duo is enrolled, cluster agreements are accepted, their role is active, and the needed group allocations are visible.
+8. After CCDB propagation, run first interactive logins so the user can approve Duo:
+
+```bash
+ssh narval
+ssh killarney
+ssh trillium
+```
+
+9. Verify the aliases with:
+
+```bash
+bash scripts/doctor.sh
+ssh narval 'hostname; whoami'
+```
+
+10. On macOS agent machines that should stay ready for Slack/agent use, optionally install the scheduled MFA warmup:
+
+```bash
+bash scripts/install_mfa_warmup_launchd.sh
+```
+
+Per-user values are stored only in `~/.config/ssh-skill/env`; do not commit usernames, keys, tokens, passwords, or personal paths to this repository.
+
 ## Manual Install
 
 Install or copy this skill into your agent's skills directory, then run the one-time setup:
