@@ -1,0 +1,26 @@
+{
+  "name": "@aspuru-guzik-group/ssh-skill",
+  "version": "1.0.0",
+  "description": "Install the Aspuru-Guzik /ssh agent skill for Alliance Canada and lab clusters.",
+  "license": "MIT",
+  "type": "module",
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git"
+  },
+  "bin": {
+    "skill": "./scripts/skill-add.mjs",
+    "ssh-skill": "./scripts/skill-add.mjs"
+  },
+  "files": [
+    "SKILL.md",
+    "README.md",
+    "agents",
+    "references",
+    "scripts",
+    ".gitignore"
+  ],
+  "engines": {
+    "node": ">=18"
+  }
+}

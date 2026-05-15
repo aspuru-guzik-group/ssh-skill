@@ -13,7 +13,33 @@ killarney
 trillium
 ```
 
-## Install
+## Install With npx
+
+Install the `/ssh` skill into Codex:
+
+```bash
+npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add codex
+```
+
+Install into Claude Code:
+
+```bash
+npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add claudecode
+```
+
+Install into another agent by passing the skill directory explicitly:
+
+```bash
+npx --yes --package git+ssh://git@github.com/aspuru-guzik-group/ssh-skill.git skill add --target ~/.agent/skills/ssh
+```
+
+Then run the one-time SSH setup from the installed skill directory:
+
+```bash
+bash ~/.codex/skills/ssh/scripts/install_ssh_config.sh
+```
+
+## Manual Install
 
 Install or copy this skill into your agent's skills directory, then run the one-time setup:
 
@@ -25,7 +51,9 @@ The setup asks for:
 
 - Alliance/CCDB username for Narval, Cedar, Killarney, and Trillium.
 - Matter/CSLab username for Mariana and Comte.
-- SSH key path, or it creates `~/.ssh/id_ed25519` if no key exists.
+- Mariana/Comte hostnames, prefilled with lab defaults.
+- Aspuru-Guzik Slurm account names, prefilled with lab defaults.
+- SSH key path from `SSH_SKILL_KEY`, or an existing local key; it creates `~/.ssh/id_ed25519` if no key exists.
 
 It writes:
 
@@ -35,6 +63,8 @@ It writes:
 ```
 
 and ensures `~/.ssh/config` includes `~/.ssh/config.d/*`.
+
+The repository stores shared lab cluster metadata and Aspuru-Guzik allocation names. It must not store personal usernames, public keys, private keys, tokens, passwords, MFA state, or personal filesystem paths. Per-user values are written only to the local env file above.
 
 ## Agent Integration
 
@@ -63,6 +93,18 @@ The installer prints your public SSH key. Add that key to CCDB, then confirm:
 - Your group allocations are visible.
 
 After CCDB updates, access can take time to propagate.
+
+## Public Repo Safety
+
+Before publishing a fork or release, check the tracked files:
+
+```bash
+git grep -n -I -E 'BEGIN .*KEY|PRIVATE KEY|password|passcode|token|secret|SSH_SKILL_ALLIANCE_USER=.*[^<]|SSH_SKILL_MATTER_USER=.*[^<]' -- .
+git grep -n -I -E '/Users/[A-Za-z0-9._-]+|/home/[^$<{[:space:]]+|/scratch/[^$<{[:space:]]+' -- .
+```
+
+These checks should not return real user accounts, keys, tokens, or personal paths.
+
 
 ## First Login
 

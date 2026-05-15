@@ -10,7 +10,7 @@ Login alias:
 ssh comte
 ```
 
-The generated local alias maps to `comte.matter.sandbox` using `SSH_SKILL_MATTER_USER` and the configured `SSH_SKILL_KEY`.
+The generated local alias maps to `comte.matter.sandbox` by default using `SSH_SKILL_MATTER_USER` and the configured `SSH_SKILL_KEY`. Override `SSH_SKILL_COMTE_HOST` in the local env file if the hostname changes.
 
 ## Monitoring Requirement
 

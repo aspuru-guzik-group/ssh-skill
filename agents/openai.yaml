@@ -1,0 +1,3 @@
+display_name: /ssh
+short_description: Operate Aspuru-Guzik and Alliance Canada clusters over SSH.
+default_prompt: /ssh narval show my jobs

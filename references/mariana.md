@@ -8,7 +8,7 @@ Login node:
 ssh mariana
 ```
 
-The generated local alias maps to `mariana.matter.sandbox` using `SSH_SKILL_MATTER_USER`. Users normally authenticate with their CSLab login. Mariana is reachable from the CS network; otherwise use the CS VPN or tunnel through a CS server such as `ssh cs.toronto.edu`.
+The generated local alias maps to `mariana.matter.sandbox` by default using `SSH_SKILL_MATTER_USER`. Users normally authenticate with their CSLab login. Mariana is reachable from the CS network; otherwise use the CS VPN or an appropriate SSH bastion. Override `SSH_SKILL_MARIANA_HOST` in the local env file if the hostname changes.
 
 Report cluster problems to Chris Crebolder.
 

@@ -4,6 +4,8 @@ description: Use agents to operate Aspuru-Guzik group and Alliance Canada cluste
 version: 1.0.0
 user-invocable: true
 metadata:
+  display_name: /ssh
+  slash_command: /ssh
   openclaw:
     requires:
       bins:
@@ -75,6 +77,11 @@ Expected variables:
 SSH_SKILL_ALLIANCE_USER  # Alliance/CCDB username, used for Narval/Cedar/Killarney/etc.
 SSH_SKILL_MATTER_USER    # local Matter/CSLab username, used for Mariana/Comte
 SSH_SKILL_KEY            # private key path, usually ~/.ssh/id_ed25519 or ~/.ssh/id_rsa
+SSH_SKILL_MARIANA_HOST   # optional private Mariana hostname
+SSH_SKILL_COMTE_HOST     # optional private Comte hostname
+SSH_SKILL_ACCOUNT_PRIMARY # optional primary Slurm account name
+SSH_SKILL_ACCOUNT_DEFAULT # optional default/opportunistic Slurm account name
+SSH_SKILL_ACCOUNT_AI      # optional AI/GPU Slurm account name
 ```
 
 The setup also writes cluster aliases to `~/.ssh/config.d/aspuru-guzik-clusters` and adds `Include ~/.ssh/config.d/*` to `~/.ssh/config` when needed.
@@ -171,6 +178,14 @@ Known Aspuru-Guzik group account names:
 rrg-aspuru  # RRG/RAC allocation: Accelerating Materials Discovery with Classical and Quantum Computing
 def-aspuru  # Default Resource Allocation Project; opportunistic/default jobs
 aip-aspuru  # PAICE AI allocation; Killarney currently uses this account
+```
+
+The installer stores these defaults in local-only env variables so labs can adjust them per user or machine:
+
+```text
+SSH_SKILL_ACCOUNT_PRIMARY  # defaults to rrg-aspuru
+SSH_SKILL_ACCOUNT_DEFAULT  # defaults to def-aspuru
+SSH_SKILL_ACCOUNT_AI       # defaults to aip-aspuru
 ```
 
 Some clusters expose derived Slurm account names, usually with `_cpu` and `_gpu` suffixes. For example, Narval has been observed with:
