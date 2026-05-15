@@ -1,6 +1,6 @@
-# Aspuru-Guzik SSH Skill
+# Matterlab SSH Skill
 
-Agent skill for operating Aspuru-Guzik group and Alliance Canada clusters over SSH.
+Agent skill for operating Matterlab and Alliance Canada clusters over SSH.
 
 Supported aliases:
 
@@ -64,7 +64,7 @@ It writes:
 
 and ensures `~/.ssh/config` includes `~/.ssh/config.d/*`.
 
-The repository stores shared lab cluster metadata and Aspuru-Guzik allocation names. It must not store personal usernames, public keys, private keys, tokens, passwords, MFA state, or personal filesystem paths. Per-user values are written only to the local env file above.
+The repository stores shared Matterlab cluster metadata and Aspuru-Guzik allocation names. It must not store personal usernames, public keys, private keys, tokens, passwords, MFA state, or personal filesystem paths. Per-user values are written only to the local env file above.
 
 ## Agent Integration
 

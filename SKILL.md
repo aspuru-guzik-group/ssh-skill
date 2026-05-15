@@ -1,6 +1,6 @@
 ---
 name: ssh
-description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, killarney, or trillium.
+description: Use agents to operate Matterlab and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, killarney, or trillium.
 version: 1.0.0
 user-invocable: true
 metadata:
