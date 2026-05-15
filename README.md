@@ -7,8 +7,6 @@ Supported aliases:
 ```text
 mariana
 comte
-niagara
-beluga
 narval
 cedar
 killarney
@@ -24,7 +22,7 @@ bash scripts/install_ssh_config.sh
 
 The setup asks for:
 
-- Alliance/CCDB username for Narval, Cedar, Killarney, Beluga, and Niagara.
+- Alliance/CCDB username for Narval, Cedar, and Killarney.
 - Matter/CSLab username for Mariana and Comte.
 - SSH key path, or it creates `~/.ssh/id_ed25519` if no key exists.
 
@@ -112,13 +110,13 @@ This runs at 09:00 and 19:00 local time and starts normal SSH authentication for
 Default warmup targets:
 
 ```text
-beluga narval cedar killarney
+narval cedar killarney
 ```
 
-Niagara is not included by default because it is legacy/decommissioned in the cluster references. To override the list:
+To override the list:
 
 ```bash
-SSH_SKILL_MFA_CLUSTERS="beluga narval cedar killarney niagara" bash scripts/install_mfa_warmup_launchd.sh
+SSH_SKILL_MFA_CLUSTERS="narval cedar killarney" bash scripts/install_mfa_warmup_launchd.sh
 ```
 
 Logs are written to:
@@ -163,8 +161,6 @@ references/onboarding.md
 references/monitoring.md
 references/mariana.md
 references/comte.md
-references/niagara.md
-references/beluga.md
 references/narval.md
 references/cedar.md
 references/killarney.md

@@ -1,6 +1,6 @@
 ---
 name: ssh
-description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, niagara, beluga, narval, cedar, or killarney.
+description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, or killarney.
 version: 1.0.0
 user-invocable: true
 metadata:
@@ -20,15 +20,11 @@ trigger_phrases:
   - /ssh
   - ssh mariana
   - ssh comte
-  - ssh niagara
-  - ssh beluga
   - ssh narval
   - ssh cedar
   - ssh killarney
   - submit to mariana
   - submit to comte
-  - submit to niagara
-  - submit to beluga
   - submit to narval
   - submit to cedar
   - submit to killarney
@@ -49,8 +45,6 @@ Known clusters:
 ```text
 mariana   -> mariana.matter.sandbox       user from SSH_SKILL_MATTER_USER
 comte     -> comte.matter.sandbox         user from SSH_SKILL_MATTER_USER
-niagara   -> niagara.computecanada.ca     user from SSH_SKILL_ALLIANCE_USER
-beluga    -> beluga.computecanada.ca      user from SSH_SKILL_ALLIANCE_USER
 narval    -> narval.computecanada.ca      user from SSH_SKILL_ALLIANCE_USER
 cedar     -> cedar.computecanada.ca       user from SSH_SKILL_ALLIANCE_USER
 killarney -> killarney.alliancecan.ca     user from SSH_SKILL_ALLIANCE_USER
@@ -91,8 +85,6 @@ references/onboarding.md # first-time setup and CCDB SSH key checklist
 references/monitoring.md # required post-submit CPU/GPU/memory utilization checks
 references/mariana.md    # Mariana-specific Slurm/storage/ORCA notes
 references/comte.md      # Comte discovery-first notes
-references/niagara.md    # Niagara legacy/decommissioned notes
-references/beluga.md     # Beluga status/storage/job notes
 references/narval.md     # Narval storage/job/network notes
 references/cedar.md      # Cedar storage/job/network notes
 references/killarney.md  # Killarney H100/L40S GPU notes
@@ -152,13 +144,13 @@ bash scripts/install_mfa_warmup_launchd.sh
 This runs `scripts/mfa_warmup.sh` every day at 09:00 and 19:00 local time. It starts normal SSH authentication to MFA-backed Alliance clusters so the user can approve Duo on their phone; it does not approve, bypass, store, or simulate MFA. Default warmup clusters are:
 
 ```text
-beluga narval cedar killarney
+narval cedar killarney
 ```
 
-Niagara is not warmed by default because it is legacy/decommissioned in the cluster references. Override the list per machine with `SSH_SKILL_MFA_CLUSTERS`, for example:
+Override the list per machine with `SSH_SKILL_MFA_CLUSTERS`, for example:
 
 ```bash
-SSH_SKILL_MFA_CLUSTERS="beluga narval cedar killarney niagara" bash scripts/install_mfa_warmup_launchd.sh
+SSH_SKILL_MFA_CLUSTERS="narval cedar killarney" bash scripts/install_mfa_warmup_launchd.sh
 ```
 
 Warmup logs are written to:

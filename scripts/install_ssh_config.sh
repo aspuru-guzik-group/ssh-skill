@@ -134,36 +134,6 @@ ${use_keychain_line}
     ServerAliveCountMax 3
     StrictHostKeyChecking accept-new
 
-Host niagara
-    HostName niagara.computecanada.ca
-    User ${alliance_user}
-    IdentityFile ${key_path}
-    IdentitiesOnly yes
-    AddKeysToAgent yes
-${use_keychain_line}
-    ForwardAgent yes
-    ControlMaster auto
-    ControlPath ~/.ssh/controlmasters/%C
-    ControlPersist 10h
-    ServerAliveInterval 60
-    ServerAliveCountMax 3
-    StrictHostKeyChecking accept-new
-
-Host beluga
-    HostName beluga.computecanada.ca
-    User ${alliance_user}
-    IdentityFile ${key_path}
-    IdentitiesOnly yes
-    AddKeysToAgent yes
-${use_keychain_line}
-    ForwardAgent yes
-    ControlMaster auto
-    ControlPath ~/.ssh/controlmasters/%C
-    ControlPersist 10h
-    ServerAliveInterval 60
-    ServerAliveCountMax 3
-    StrictHostKeyChecking accept-new
-
 Host narval
     HostName narval.computecanada.ca
     User ${alliance_user}

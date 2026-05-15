@@ -20,7 +20,7 @@ max_wait="${3:-900}"
 interval="${4:-30}"
 
 case "$cluster" in
-  mariana|comte|niagara|beluga|narval|cedar|killarney) ;;
+  mariana|comte|narval|cedar|killarney) ;;
   *)
     printf 'Unknown cluster: %s\n' "$cluster" >&2
     exit 2

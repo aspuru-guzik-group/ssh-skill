@@ -23,7 +23,7 @@ CPU nodes:
 - 48 CPUs.
 - 384 GB memory, with about 4 GB reserved for OS and management.
 
-CPU nodes from Niagara:
+Imported 40-core CPU nodes:
 
 - 40 physical CPUs, hyperthreading enabled, appearing as 80 CPUs.
 - 188 GB memory, with about 4 GB reserved.

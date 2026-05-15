@@ -6,7 +6,7 @@ Use this when installing the SSH skill on a new group member's machine or when `
 
 Each user needs:
 
-- An Alliance/CCDB username for Narval, Cedar, Killarney, Beluga, and Niagara.
+- An Alliance/CCDB username for Narval, Cedar, and Killarney.
 - A Matter/CSLab username for Mariana and Comte, if they use those local clusters.
 - A local SSH keypair.
 - The public SSH key registered in CCDB.

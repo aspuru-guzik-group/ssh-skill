@@ -12,7 +12,7 @@ label="org.aspuru-guzik.ssh-skill.mfa-warmup"
 plist_dir="$HOME/Library/LaunchAgents"
 plist="$plist_dir/${label}.plist"
 state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/ssh-skill"
-clusters="${SSH_SKILL_MFA_CLUSTERS:-beluga narval cedar killarney}"
+clusters="${SSH_SKILL_MFA_CLUSTERS:-narval cedar killarney}"
 attempt_seconds="${SSH_SKILL_MFA_ATTEMPT_SECONDS:-90}"
 stagger_seconds="${SSH_SKILL_MFA_STAGGER_SECONDS:-8}"
 
