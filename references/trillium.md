@@ -57,6 +57,37 @@ Discover live paths first; Trillium/SciNet path names can differ from other Alli
 
 Prefer scratch or project storage for active datasets, generated shards, checkpoints, and logs. Keep `$HOME` for code and small config files only. If `$SCRATCH` or `$PROJECT` is unset, inspect mounted filesystems and project symlinks before writing large files.
 
+## Hardware
+
+Public SciNet launch specs described Trillium as:
+
+```text
+CPU subcluster:
+1224 CPU compute nodes
+2 x 96-core AMD EPYC Zen5 CPUs per node
+768 GiB RAM per node
+
+GPU subcluster:
+60 GPU compute nodes
+1 x 96-core AMD EPYC Zen4 CPU per GPU node
+4 x NVIDIA H100 SXM 80 GB GPUs per GPU node
+768 GiB RAM per GPU node
+
+Storage/network:
+29 PB all-flash storage
+NVIDIA NDR InfiniBand
+400 Gbps per CPU node, 800 Gbps per GPU node
+```
+
+Live Slurm discovery from the GPU login on 2026-05-15 showed:
+
+```text
+62 nodes x 96 CPUs, 770000 MB RAM, 4 x NVIDIA H100
+1 node   x 96 CPUs, 1544000 MB RAM, 4 x NVIDIA H200
+```
+
+The skill's `trillium` alias logs into the GPU side. Use `trillium.scinet.utoronto.ca` or the site-provided CPU hostname when the workflow is CPU-only and needs the CPU subcluster.
+
 ## Slurm
 
 Trillium uses Slurm. Discover partitions and GPU names before writing final job scripts:

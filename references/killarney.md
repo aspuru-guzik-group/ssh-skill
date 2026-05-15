@@ -75,6 +75,22 @@ Live quota snapshot from 2026-05-15:
 
 Use `$SCRATCH` for active job directories and `$HOME/projects/aip-aspuru` for persistent project data/results. Use `$SLURM_TMPDIR` inside jobs if Slurm sets it, then copy results back before the job exits.
 
+## Hardware
+
+Live Slurm discovery on 2026-05-15 showed Killarney as a GPU-only system:
+
+```text
+L40S nodes:
+167 nodes x 64 CPUs, 515000 MB RAM, 4 x NVIDIA L40S
+1 node    x 128 CPUs, 515000 MB RAM, 4 x NVIDIA L40S
+
+H100 nodes:
+9 nodes   x 48 CPUs, 2060000 MB RAM, 8 x NVIDIA H100
+1 node    x 96 CPUs, 2060000 MB RAM, 8 x NVIDIA H100
+```
+
+Approximate physical GPU inventory from live Slurm node data: 168 L40S nodes / 672 L40S GPUs, and 10 H100 nodes / 80 H100 GPUs. No CPU-only partitions were visible during discovery.
+
 ## Slurm
 
 Use `#SBATCH --account=aip-aspuru`.

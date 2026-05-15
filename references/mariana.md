@@ -18,22 +18,27 @@ After every `sbatch` submission, follow `references/monitoring.md`: monitor unti
 
 ## Hardware
 
+Provided cluster notes plus live Slurm discovery on 2026-05-15 show:
+
 CPU nodes:
 
 - 48 CPUs.
 - 384 GB memory, with about 4 GB reserved for OS and management.
+- Live Slurm currently shows 7 local CPU nodes with 48 CPUs and 380000 MB reported memory; 3 of those also appear in the `cpunodes_7d` partition.
 
 Imported 40-core CPU nodes:
 
 - 40 physical CPUs, hyperthreading enabled, appearing as 80 CPUs.
 - 188 GB memory, with about 4 GB reserved.
 - No dedicated disks, including no local scratch disk.
+- Live Slurm currently shows 72 imported nodes with 80 visible CPUs and 184000 MB reported memory.
 
 GPU nodes:
 
 - 16 CPUs.
 - 384 GB memory, with about 4 GB reserved.
 - 4 GeForce RTX 2070 GPUs per node. One node also has an RTX 5000 Ada.
+- Live Slurm currently shows 3 GPU nodes: 2 nodes with `gpu:rtx2070:4`, and 1 node with `gpu:rtx2070:4,gpu:rtx5000:1`, for 13 GPUs total.
 - Use 1 GPU per 4 CPUs when possible. Request multiple GPUs only if the code uses them.
 
 ## Storage

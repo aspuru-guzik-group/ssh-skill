@@ -64,6 +64,45 @@ Use `$SCRATCH` for active job directories and logs, `$PROJECT` for persistent pr
 
 Avoid submitting or writing heavy job outputs from `$HOME`; prefer `$SCRATCH`.
 
+## Hardware
+
+Cedar required a fresh Duo session during the 2026-05-15 skill update, so these specs are from public/historical Cedar hardware notes and should be verified live with `sinfo` after login:
+
+```bash
+ssh cedar 'bash -lc "sinfo -N -o \"%N %c %m %G %f\" | head -120"'
+ssh cedar 'bash -lc "sinfo -o \"%P %D %c %m %G %f\" | sort -u | head -120"'
+```
+
+Public/historical Cedar specs:
+
+```text
+Total: 101,424 CPU cores, 1,352 GPUs
+
+CPU nodes:
+576 nodes  x 32 cores, 125 GB RAM
+640 nodes  x 48 cores, 187 GB RAM
+768 nodes  x 48 cores, 187 GB RAM
+
+Large-memory CPU nodes:
+128 nodes  x 32 cores, 250 GB RAM
+24 nodes   x 32 cores, 502 GB RAM
+24 nodes   x 32 cores, 1510 GB RAM
+4 nodes    x 32 cores, 3022 GB RAM
+
+GPU nodes:
+114 nodes  x 24 cores, 125 GB RAM, 4 x NVIDIA P100 12 GB
+32 nodes   x 24 cores, 250 GB RAM, 4 x NVIDIA P100 16 GB
+192 nodes  x 32 cores, 187 GB RAM, 4 x NVIDIA V100 32 GB with NVLink
+```
+
+Common Cedar GPU requests:
+
+```text
+#SBATCH --gres=gpu:p100:1
+#SBATCH --gres=gpu:p100l:1
+#SBATCH --gres=gpu:v100l:1
+```
+
 ## Slurm
 
 Cedar has CPU, GPU, project storage, nearline storage, and dCache resources in public allocation tables. Use `rrg-aspuru`, `def-aspuru`, or `aip-aspuru` only after live verification shows the account is valid for the requested partition/QOS.

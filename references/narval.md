@@ -85,6 +85,33 @@ Live quota snapshot on 2026-05-15:
 
 For I/O-heavy jobs, copy inputs to `$SLURM_TMPDIR` at job start, run there, and copy results back to `$SCRATCH` or a project symlink such as `$HOME/projects/rrg-aspuru`.
 
+## Hardware
+
+Live Slurm discovery on 2026-05-15 showed the following node types. Memory values are Slurm-reported MB, so treat them as scheduler-usable memory rather than vendor nominal RAM.
+
+CPU nodes:
+
+```text
+1143 nodes x 64 CPUs, 256000 MB RAM, AMD Rome
+4 nodes    x 64 CPUs, 256000 MB RAM, AMD Genoa
+8 nodes    x 64 CPUs, 512000 MB RAM, AMD Milan
+76 nodes   x 64 CPUs, 512000 MB RAM, AMD Genoa
+1 node     x 64 CPUs, 2057500 MB RAM, AMD Milan
+33 nodes   x 64 CPUs, 2057500 MB RAM, AMD Rome
+3 nodes    x 64 CPUs, 4115000 MB RAM, AMD Rome
+```
+
+GPU nodes:
+
+```text
+123 nodes  x 48 CPUs, 510000 MB RAM, 4 x NVIDIA A100
+2 nodes    x 48 CPUs, 510000 MB RAM, 4 x NVIDIA A100
+16 nodes   x 64 CPUs, 1024000 MB RAM, 4 x NVIDIA A100
+33 nodes   x 48 CPUs, 510000 MB RAM, 4 x NVIDIA A100 configured as MIG slices
+```
+
+Approximate physical GPU inventory from live Slurm node data: 174 A100 GPU nodes, 696 physical A100 GPUs. Full-A100 non-MIG nodes account for 141 nodes / 564 full A100 GPUs; MIG nodes expose slice GRES such as `a100_4g.20gb`, `a100_3g.20gb`, `a100_2g.10gb`, and `a100_1g.5gb`.
+
 ## Slurm
 
 Narval has CPU and A100 GPU partitions. Use the `_cpu` accounts for CPU jobs and `_gpu` accounts for GPU jobs.

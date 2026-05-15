@@ -101,6 +101,8 @@ references/killarney.md  # Killarney H100/L40S GPU notes
 references/trillium.md   # Trillium GPU login/storage/job discovery notes
 ```
 
+Cluster reference files include hardware/spec sections with node counts, CPU/GPU types, memory, and scheduler caveats where known. Use those sections before sizing jobs, but still verify live with `sinfo`/`scontrol` because queues and node availability change.
+
 For simple status checks (`hostname`, `whoami`, `pwd`, `squeue`, `sinfo`, `module avail`, checking a log), you can proceed directly and consult the reference only if needed.
 
 ## Connection
