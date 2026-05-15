@@ -37,6 +37,23 @@ It writes:
 
 and ensures `~/.ssh/config` includes `~/.ssh/config.d/*`.
 
+## Agent Integration
+
+For OpenClaw, copy this repository into the relevant workspace skill directory, for example:
+
+```bash
+rsync -a --delete --exclude='.git/' ./ ~/.openclaw/workspace-slack-shared/skills/ssh/
+```
+
+For Hermes, copy this repository into a category under `~/.hermes/skills`, for example:
+
+```bash
+mkdir -p ~/.hermes/skills/devops/ssh
+rsync -a --delete --exclude='.git/' ./ ~/.hermes/skills/devops/ssh/
+```
+
+The skill includes trigger phrases for `/ssh` and cluster-specific SSH/submission requests.
+
 ## CCDB Setup
 
 The installer prints your public SSH key. Add that key to CCDB, then confirm:

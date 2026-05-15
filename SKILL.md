@@ -1,8 +1,37 @@
 ---
 name: ssh
 description: Use agents to operate Aspuru-Guzik group and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, niagara, beluga, narval, cedar, or killarney.
+version: 1.0.0
 user-invocable: true
-metadata: {"openclaw":{"requires":{"bins":["ssh"]}}}
+metadata:
+  openclaw:
+    requires:
+      bins:
+        - ssh
+  hermes:
+    tags:
+      - ssh
+      - cluster
+      - slurm
+      - hpc
+      - alliance
+      - aspuru-guzik
+trigger_phrases:
+  - /ssh
+  - ssh mariana
+  - ssh comte
+  - ssh niagara
+  - ssh beluga
+  - ssh narval
+  - ssh cedar
+  - ssh killarney
+  - submit to mariana
+  - submit to comte
+  - submit to niagara
+  - submit to beluga
+  - submit to narval
+  - submit to cedar
+  - submit to killarney
 ---
 
 # SSH Clusters
