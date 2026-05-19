@@ -120,7 +120,7 @@ mkdir -p ~/.hermes/skills/devops/ssh
 rsync -a --delete --exclude='.git/' ./ ~/.hermes/skills/devops/ssh/
 ```
 
-The skill includes trigger phrases for `/ssh` and cluster-specific SSH/submission requests.
+The skill includes trigger phrases for `/ssh`, cluster-specific SSH/submission requests, and ORCA quantum chemistry jobs.
 
 ## CCDB Setup
 
@@ -238,6 +238,7 @@ From an agent:
 /ssh killarney submit this GPU job
 /ssh trillium submit this GPU job
 /ssh mariana check ORCA output
+/ssh narval submit this ORCA input
 ```
 
 Direct shell checks:
@@ -264,6 +265,7 @@ Cluster-specific instructions live in `references/`:
 ```text
 references/onboarding.md
 references/monitoring.md
+references/orca.md
 references/mariana.md
 references/comte.md
 references/narval.md

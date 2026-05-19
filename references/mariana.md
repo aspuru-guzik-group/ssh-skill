@@ -194,64 +194,14 @@ nvidia-smi
 # Run GPU code here.
 ```
 
-## ORCA 6 Workflow
+## ORCA
 
-Use this pattern for Slack requests like "run this ORCA calculation" or "submit ORCA 6 on Mariana."
+For shared ORCA rules and job templates, read `references/orca.md` first. Mariana-specific notes:
 
-1. Create or identify a working directory, preferably under `/project/${USER}` for real jobs.
-2. Put the `.inp` file and any required geometry/basis/auxiliary files there.
-3. Verify ORCA availability:
-
-```bash
-module avail 2>&1 | grep -i orca || true
-source /cvmfs/soft.computecanada.ca/config/profile/bash.sh
-module avail 2>&1 | grep -i orca || true
-which orca || true
-```
-
-4. Match ORCA parallelism to Slurm:
-
-```text
-%pal nprocs 8 end
-```
-
-with:
-
-```bash
-#SBATCH --ntasks=8
-export OMP_NUM_THREADS=1
-```
-
-5. Submit via Slurm:
-
-```bash
-sbatch orca_job.sh
-```
-
-ORCA CPU job template:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=orca_job
-#SBATCH --partition=cpunodes
-#SBATCH --time=24:00:00
-#SBATCH --ntasks=8
-#SBATCH --mem-per-cpu=4G
-#SBATCH --output=%x-%j.slurm.out
-
-set -euo pipefail
-
-module purge
-# Load the discovered ORCA 6 module or environment here.
-# module load orca/6
-
-export OMP_NUM_THREADS=1
-export TMPDIR="${TMPDIR:-/tmp}"
-
-orca input.inp > input.out
-```
-
-If ORCA is not on `PATH` after module loading, use the discovered absolute executable path. Do not invent one. Check `input.out` and the Slurm log for normal termination or errors.
+- Prefer `/project/${USER}` for real ORCA working directories and final outputs.
+- Use the `cpunodes` partition unless live discovery shows a better CPU partition.
+- If using Alliance CVMFS modules on Mariana, source `/cvmfs/soft.computecanada.ca/config/profile/bash.sh` before `module spider orca`.
+- If an ORCA module exports `EBROOTORCA`, run `${EBROOTORCA}/orca input.inp > input.out`; parallel ORCA should be called by full executable path.
 
 ## Direct SSH To Compute Nodes
 

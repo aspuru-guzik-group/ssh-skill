@@ -1,6 +1,6 @@
 ---
 name: ssh
-description: Use agents to operate Matterlab and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, or debug jobs on mariana, comte, narval, cedar, killarney, or trillium.
+description: Use agents to operate Matterlab and Alliance Canada clusters over SSH. Use when the user invokes /ssh [cluster] <instruction>, needs first-time SSH/CCDB onboarding, or asks to inspect Slurm queues, submit jobs, create job scripts, use scratch/project storage, monitor/cancel jobs, debug jobs, or run ORCA quantum chemistry jobs on mariana, comte, narval, cedar, killarney, or trillium.
 version: 1.0.0
 user-invocable: true
 metadata:
@@ -32,6 +32,11 @@ trigger_phrases:
   - submit to cedar
   - submit to killarney
   - submit to trillium
+  - orca
+  - ORCA
+  - submit ORCA
+  - run ORCA
+  - quantum chemistry
 ---
 
 # SSH Clusters
@@ -95,6 +100,7 @@ Read the relevant reference before submitting or modifying jobs:
 ```text
 references/onboarding.md # first-time setup and CCDB SSH key checklist
 references/monitoring.md # required post-submit CPU/GPU/memory utilization checks
+references/orca.md       # ORCA quantum chemistry module/job workflow
 references/mariana.md    # Mariana-specific Slurm/storage/ORCA notes
 references/comte.md      # Comte discovery-first notes
 references/narval.md     # Narval storage/job/network notes
@@ -260,6 +266,7 @@ If the user does not specify an account, use the verified `rrg-aspuru` account f
 - Use job-local `$SLURM_TMPDIR`, `/tmp`, or `/scratch/${USER}` for scratch. Copy anything important back to `$SCRATCH`, `$PROJECT`, `$HOME/projects/<account>`, or `$HOME` before the job exits.
 - Ask before destructive actions such as deleting data, cancelling someone else's jobs, or overwriting an existing input/output directory.
 - Prefer inspecting existing files, modules, Slurm accounts, and partitions on the selected cluster instead of assuming exact module names or software paths.
+- For ORCA quantum chemistry requests, read `references/orca.md` before writing or submitting scripts. ORCA is module- and license-sensitive; verify the module stack on the selected cluster first.
 - After every submitted job starts running, automatically verify resource utilization. Check that requested GPUs are busy, requested CPU cores are actually used, and requested memory is reasonable. Jobs that reserve many resources while leaving GPUs/CPUs idle should be flagged quickly; ask the user whether to cancel or downsize, and cancel only with user approval unless the user preauthorized automatic cancellation.
 - When reporting back in Slack or chat, include the cluster, command outcome, job id if submitted, working directory, log/output file, and the next monitoring command.
 
@@ -330,33 +337,6 @@ ssh <cluster> 'bash -lc "printf \"HOME=%s\\nSCRATCH=%s\\nPROJECT=%s\\nSLURM_TMPD
 
 ## ORCA 6 Pattern
 
-For ORCA requests, first choose the cluster and load its exact reference file, for example `references/mariana.md`, `references/narval.md`, or `references/cedar.md`.
+For ORCA requests, first read `references/orca.md`, then load the selected cluster reference for account, partition, and storage details.
 
-1. Check how ORCA is installed on the selected cluster (`module avail`, `module spider`, `which orca`, or known local docs).
-2. Keep ORCA CPU parallelism consistent with Slurm resources. If requesting `--ntasks=8`, the ORCA input should typically include `%pal nprocs 8 end`.
-3. Use CPU nodes unless the user explicitly has a GPU-capable ORCA workflow.
-4. Run ORCA through an `sbatch` script, not directly on the login node.
-5. Put temporary files in `$SLURM_TMPDIR`, `/tmp`, `/scratch/${USER}`, or the cluster's documented scratch path. Keep final `.out`, `.gbw`, `.xyz`, and other requested outputs in the working directory, `$SCRATCH`, `$PROJECT`, `$HOME/projects/<account>`, or `/project/${USER}`.
-
-Minimal CPU ORCA job shape:
-
-```bash
-#!/bin/bash
-#SBATCH --job-name=orca_job
-#SBATCH --account=ACCOUNT_CHANGEME
-#SBATCH --time=24:00:00
-#SBATCH --ntasks=8
-#SBATCH --mem-per-cpu=4G
-#SBATCH --output=%x-%j.out
-
-set -euo pipefail
-
-module purge
-# Load the ORCA 6 environment discovered on the selected cluster, for example:
-# module load orca/6.1.1
-
-export OMP_NUM_THREADS=1
-export TMPDIR="${SLURM_TMPDIR:-${TMPDIR:-/tmp}}"
-
-orca input.inp > input.out
-```
+Core checks: run ORCA through Slurm, not on login; use CPU nodes unless the user has a verified GPU-capable ORCA workflow; keep `#SBATCH --ntasks=N` aligned with `%pal nprocs N end`; call ORCA by its full executable path such as `${EBROOTORCA}/orca` when the module provides one.

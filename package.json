@@ -1,7 +1,7 @@
 {
   "name": "@aspuru-guzik-group/ssh-skill",
   "version": "1.0.0",
-  "description": "Install the Matterlab /ssh agent skill for Alliance Canada and lab clusters.",
+  "description": "Install the Matterlab /ssh agent skill for Alliance Canada, lab clusters, and ORCA jobs.",
   "license": "MIT",
   "type": "module",
   "repository": {
