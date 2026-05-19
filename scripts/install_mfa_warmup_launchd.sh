@@ -15,6 +15,7 @@ state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/ssh-skill"
 clusters="${SSH_SKILL_MFA_CLUSTERS:-narval cedar killarney trillium}"
 attempt_seconds="${SSH_SKILL_MFA_ATTEMPT_SECONDS:-90}"
 stagger_seconds="${SSH_SKILL_MFA_STAGGER_SECONDS:-8}"
+response="${SSH_SKILL_MFA_RESPONSE:-1}"
 
 run_now=0
 if [ "${1:-}" = "--run-now" ]; then
@@ -56,6 +57,8 @@ cat > "$plist" <<EOF
     <string>$(xml_escape "$attempt_seconds")</string>
     <key>SSH_SKILL_MFA_STAGGER_SECONDS</key>
     <string>$(xml_escape "$stagger_seconds")</string>
+    <key>SSH_SKILL_MFA_RESPONSE</key>
+    <string>$(xml_escape "$response")</string>
   </dict>
 
   <key>StartCalendarInterval</key>
@@ -92,6 +95,7 @@ launchctl enable "gui/${uid}/${label}" >/dev/null 2>&1 || true
 printf 'Installed launchd MFA warmup job: %s\n' "$plist"
 printf 'Schedule: daily at 09:00 and 19:00 local time\n'
 printf 'Clusters: %s\n' "$clusters"
+printf 'Duo response: %s\n' "$response"
 printf 'Log: %s\n' "$state_dir/mfa-warmup.log"
 
 if [ "$run_now" -eq 1 ]; then

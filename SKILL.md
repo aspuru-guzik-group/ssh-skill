@@ -57,6 +57,8 @@ trillium  -> trillium-gpu.scinet.utoronto.ca user from SSH_SKILL_ALLIANCE_USER
 
 If the first word after `/ssh` is not one of these cluster names, default to `mariana` for backward compatibility and treat the whole text as the instruction.
 
+If the instruction is primarily an MFA/login warmup request, run the matching helper for the selected MFA-backed cluster, such as `bash scripts/mfa_trillium.sh`, and tell the user to approve the Duo prompt.
+
 ## Onboarding
 
 Before first use on a new machine, read `references/onboarding.md`. If SSH aliases or environment variables are missing, run:
@@ -121,10 +123,16 @@ ssh <cluster> 'bash -lc "COMMAND HERE"'
 
 Use careful quoting. When commands are complex, create a short remote script with a quoted heredoc and then run it.
 
+For MFA-backed Alliance clusters, check for an active control connection before long non-interactive work:
+
+```bash
+ssh -O check <cluster> || bash scripts/mfa_warmup.sh <cluster>
+```
+
 ## Auth Rules
 
 - Do not try to bypass Duo, MFA, passwords, or site access controls.
-- SSH keys may remove password prompts, but Alliance systems can still require MFA. If authentication blocks automation, tell the user they need to approve the first login or install the public key through CCDB.
+- SSH keys may remove password prompts, but Alliance systems can still require MFA. If authentication blocks automation after the public key is accepted, run the MFA helper for that cluster so the user can approve Duo, then retry the SSH command.
 - The generated SSH config uses ControlMaster/ControlPersist, so repeated commands can reuse a previously authenticated connection for several hours.
 - If a cluster says the public key is not accepted, ask the user to add their public key from `scripts/install_ssh_config.sh` to CCDB or the cluster's supported authorized-keys page, then retry.
 - Do not copy private GitHub keys onto shared clusters. The generated SSH config uses `ForwardAgent yes` so private GitHub repositories can be cloned through the user's local SSH agent while the cluster session is active.
@@ -148,13 +156,50 @@ Expected success looks like `Hi <github-user>! You've successfully authenticated
 
 ## MFA Warmup
 
+For a single MFA-backed cluster, start a Duo prompt before running agent work:
+
+```bash
+bash scripts/mfa_warmup.sh trillium
+```
+
+Equivalent per-cluster wrappers are available and can diverge if a cluster changes its keyboard-interactive prompt:
+
+```bash
+bash scripts/mfa_trillium.sh
+bash scripts/mfa_narval.sh
+bash scripts/mfa_cedar.sh
+bash scripts/mfa_killarney.sh
+```
+
+The helper starts normal SSH authentication, waits until it sees a Duo/passcode prompt, then sends the configured Duo menu option (`1` by default). The user must still approve the Duo push/passcode. It does not approve, bypass, store, or simulate MFA. After success, ControlMaster/ControlPersist should keep the connection reusable for normal `ssh <cluster> ...` commands.
+
+If Duo's preferred device is not option `1`, set a response globally or per cluster:
+
+```bash
+SSH_SKILL_MFA_RESPONSE=2 bash scripts/mfa_warmup.sh trillium
+SSH_SKILL_MFA_RESPONSE_TRILLIUM=2 bash scripts/mfa_trillium.sh
+```
+
+If a cluster's MFA prompt text differs, override only that cluster's prompt regex:
+
+```bash
+SSH_SKILL_MFA_PROMPT_REGEX_TRILLIUM='passcode or option|verification code' bash scripts/mfa_trillium.sh
+```
+
+If a stale control socket blocks auth, close it and warm the cluster again:
+
+```bash
+ssh -O exit trillium || true
+bash scripts/mfa_warmup.sh trillium
+```
+
 For machines that should keep Alliance SSH sessions ready for agents, install the macOS scheduled warmup:
 
 ```bash
 bash scripts/install_mfa_warmup_launchd.sh
 ```
 
-This runs `scripts/mfa_warmup.sh` every day at 09:00 and 19:00 local time. It starts normal SSH authentication to MFA-backed Alliance clusters so the user can approve Duo on their phone; it does not approve, bypass, store, or simulate MFA. Default warmup clusters are:
+This runs `scripts/mfa_warmup.sh` every day at 09:00 and 19:00 local time. Default warmup clusters are:
 
 ```text
 narval cedar killarney trillium

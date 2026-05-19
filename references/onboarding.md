@@ -52,15 +52,16 @@ After CCDB changes, it can take a little time for keys and access to propagate.
 
 ## First Login
 
-Run an interactive first login so Duo can be approved and SSH ControlMaster can create a reusable connection:
+Run an interactive first login, or use the MFA helper, so Duo can be approved and SSH ControlMaster can create a reusable connection:
 
 ```bash
 ssh narval
 ssh killarney
 ssh trillium
+bash scripts/mfa_warmup.sh trillium
 ```
 
-If Duo offers push options, select the user's device and wait for approval. Do not automate around MFA.
+If Duo offers push options, select the user's device and wait for approval. The helper may submit a Duo menu option such as `1` or `2`, but it must not approve, bypass, store, or simulate MFA.
 
 After a successful login, repeated agent commands can usually reuse the control socket:
 

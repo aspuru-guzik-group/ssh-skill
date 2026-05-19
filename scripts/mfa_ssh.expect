@@ -1,0 +1,75 @@
+#!/usr/bin/env expect -f
+
+proc env_default {name default} {
+  global env
+  if {[info exists env($name)] && $env($name) ne ""} {
+    return $env($name)
+  }
+  return $default
+}
+
+set cluster [env_default SSH_SKILL_MFA_CLUSTER ""]
+set response [env_default SSH_SKILL_MFA_RESPONSE "1"]
+set timeout [env_default SSH_SKILL_MFA_TIMEOUT "90"]
+set command [env_default SSH_SKILL_MFA_COMMAND "hostname; whoami"]
+set prompt_regex [env_default SSH_SKILL_MFA_PROMPT_REGEX {passcode or option|duo passcode|verification code|token code|one[- ]?time password|otp|enter[^\r\n]*passcode[^\r\n]*:}]
+set password_regex [env_default SSH_SKILL_MFA_PASSWORD_REGEX {passphrase for key|password[^\r\n]*:}]
+set max_sends [env_default SSH_SKILL_MFA_MAX_SENDS "3"]
+
+if {$cluster eq ""} {
+  puts stderr "mfa: missing SSH_SKILL_MFA_CLUSTER"
+  exit 2
+}
+
+if {![string is integer -strict $timeout] || $timeout < 1} {
+  puts stderr "mfa: invalid SSH_SKILL_MFA_TIMEOUT: $timeout"
+  exit 2
+}
+
+if {![string is integer -strict $max_sends] || $max_sends < 1} {
+  puts stderr "mfa: invalid SSH_SKILL_MFA_MAX_SENDS: $max_sends"
+  exit 2
+}
+
+set send_count 0
+set timeout $timeout
+
+spawn ssh \
+  -o BatchMode=no \
+  -o PreferredAuthentications=publickey,keyboard-interactive \
+  -o PubkeyAuthentication=yes \
+  -o KbdInteractiveAuthentication=yes \
+  -o NumberOfPasswordPrompts=1 \
+  -o ConnectionAttempts=1 \
+  -o ConnectTimeout=20 \
+  -- $cluster $command
+
+expect {
+  -nocase -re {are you sure you want to continue connecting.*yes/no} {
+    send -- "yes\r"
+    exp_continue
+  }
+  -nocase -re $password_regex {
+    puts stderr "\nmfa: password/passphrase prompt detected for $cluster; public-key or local ssh-agent setup needs attention"
+    exit 10
+  }
+  -nocase -re $prompt_regex {
+    incr send_count
+    if {$send_count > $max_sends} {
+      puts stderr "\nmfa: refusing to send more than $max_sends MFA responses for $cluster"
+      exit 11
+    }
+    puts stderr "\nmfa: sending configured MFA response for $cluster"
+    send -- "$response\r"
+    exp_continue
+  }
+  timeout {
+    puts stderr "\nmfa: timed out after $timeout seconds for $cluster"
+    exit 124
+  }
+  eof {
+    set wait_result [wait]
+    set status [lindex $wait_result 3]
+    exit $status
+  }
+}

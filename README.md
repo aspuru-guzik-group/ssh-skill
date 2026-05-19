@@ -147,12 +147,13 @@ These checks should not return real user accounts, keys, tokens, or personal pat
 
 ## First Login
 
-Run an interactive login once per cluster so Duo can be approved and SSH connection reuse can start:
+Run an interactive login once per cluster, or use the MFA helper, so Duo can be approved and SSH connection reuse can start:
 
 ```bash
 ssh narval
 ssh killarney
 ssh trillium
+bash scripts/mfa_warmup.sh trillium
 ```
 
 After a successful Duo login, repeated agent commands usually reuse the SSH control socket for several hours.
@@ -178,6 +179,26 @@ If GitHub auth still fails after installing this config, close old SSH control s
 ```bash
 ssh -O exit narval || true
 ssh narval
+```
+
+## MFA Helpers
+
+For a single cluster:
+
+```bash
+bash scripts/mfa_trillium.sh
+SSH_SKILL_MFA_RESPONSE_TRILLIUM=2 bash scripts/mfa_trillium.sh
+```
+
+The helper waits for a Duo/passcode prompt and sends the configured menu option. The user still approves Duo. It does not bypass MFA or approve anything automatically.
+
+Each MFA-backed Alliance cluster has a wrapper so prompt matching can be tuned independently:
+
+```text
+scripts/mfa_narval.sh
+scripts/mfa_cedar.sh
+scripts/mfa_killarney.sh
+scripts/mfa_trillium.sh
 ```
 
 ## MFA Warmup Schedule
